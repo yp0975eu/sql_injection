@@ -43,7 +43,6 @@ class LoginGUI(Frame):
         self._quitButton = Button(self, text="Quit", command=self._quit)
         self._quitButton.pack()
 
-
     def _auth(self, uname, password):
 
         # Authentication for a specified username and password.
@@ -57,11 +56,11 @@ class LoginGUI(Frame):
         db.row_factory = sqlite3.Row  # Row factory allows us to refer to columns by name (default is by integer index)
         cursor = db.cursor()
 
-        sql_statement = '''SELECT name FROM users WHERE username = '%s' and password = '%s' ''' % (uname, password)
+        sql_statement = '''SELECT name FROM users WHERE username = ? and password = ?'''
 
         print('About to execute the following SQL statement: \n' + sql_statement)
 
-        cursor.execute(sql_statement)   # Execute the SQL statement we created
+        cursor.execute(sql_statement, (uname, password,))   # Execute the SQL statement we created
 
         result = None  # Assume login fails, unless DB returns a row for this user
 
